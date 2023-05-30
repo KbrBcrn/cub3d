@@ -37,7 +37,7 @@ static void	cal_color(t_dda *dda, t_game *game, int x)
 		++dda->index_y;
 	}
 }
-//This function sets the texture input (tex_x) based on the hit side and the coordinates of the wall hit
+//sets the texture input (tex_x) based on the hit side and the coordinates of the wall hit
 static void	tex_input(t_dda *dda, t_game *game)
 {
 	if (dda->side == 0 || dda->side == 1)
