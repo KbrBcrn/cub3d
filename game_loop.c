@@ -124,15 +124,13 @@ static void	hit_check(t_dda *dda, t_game *game)
 	}
 }
 
-// calculates the side distances (sidedist_x and sidedist_y) for the ray using the DDA algorithm.
-// checks the sign of raydir_x to determine whether the ray is facing left or right.
-//If raydir_x is negative, it means the ray is facing left. In that case, it sets step_x to -1 
-//and calculates sidedist_x by multiplying the difference between the player's position (game->pos_x) 
-//and the integer value of map_x (rounded down) by deltadist_x.
-//If raydir_x is positive or zero, it means the ray is facing right. In that case, it sets step_x to 1 
-//and calculates sidedist_x by multiplying the difference between the next integer value of map_x (rounded up) 
-//and the player's position by deltadist_x.
-
+/*initial set up for the dda
+- dda algorithm will jump one square in each loop eiter in a x or y direction
+- ray->sidedist_x or y = distance from the ray start position to the
+	next x or y position
+- if x or y < 0 go the next x or y to the left
+- if x or y > 0 go the next x or y to the right
+*/
 
 static void	cal_sidedist(t_dda *dda, t_game *game)
 {
@@ -166,7 +164,13 @@ void	raycasting(t_game *game)
 	x = -1;
 	while (++x < WIDTH)
 	{
-		//Cast rays for each column of pixels
+		/*Cast rays for each column of pixels.
+		initialize the set up for the rays
+		- camera_x -> Where is the camera (-1 = left, 0 = center, 1 = right)
+		- raydir_x/y = direction of the ray
+		- map_x/y = current square of the ray
+		- deltadist_x/y = distance to go to the next x or y. */
+		
 		dda.camera_x = 2 * x / (double)WIDTH - 1;
 		dda.raydir_x = game->dir_x + game->plane_x * dda.camera_x;
 		dda.raydir_y = game->dir_y + game->plane_y * dda.camera_x;
